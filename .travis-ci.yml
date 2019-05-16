@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "8"
+sudo: required
+services:
+- docker
+script:
+- npm install
+- docker build -t therickys93/wikiparseserver .
