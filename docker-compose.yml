@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - ./db:/data/db
+  wikiparseserver:
+    build: .
+    environment:
+      - APP_ID=wikiparseserver
+      - MASTER_KEY=wikiparseserver_keysecret
+      - SERVER_URL=http://wikiparseserver:1337/parse
+      - MONGODB_URI=mongodb://mongodb/wikiparseserver
+    ports:
+      - 1337:1337
+  parse-dashboard:
+    image: parseplatform/parse-dashboard
+    depends_on:
+      - wikiparseserver
+    environment:
+        - PARSE_DASHBOARD_ALLOW_INSECURE_HTTP=1
+        - PARSE_DASHBOARD_SERVER_URL=http://localhost:1337/parse
+        - PARSE_DASHBOARD_MASTER_KEY=wikiparseserver_keysecret
+        - PARSE_DASHBOARD_APP_ID=wikiparseserver
+        - PARSE_DASHBOARD_APP_NAME=WikiParseServer
+        - PARSE_DASHBOARD_USER_ID=foo
+        - PARSE_DASHBOARD_USER_PASSWORD=bar
+    ports:
+        - 4040:4040

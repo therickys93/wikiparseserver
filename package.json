@@ -15,7 +15,8 @@
     "parse-server": "*"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "docker": "sleep 20 && node index.js"
   },
   "engines": {
     "node": ">=4.3"
